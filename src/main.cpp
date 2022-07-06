@@ -79,6 +79,7 @@ int main(int argc, char** argv) {
 			g_game->render();
 			if (g_game->check_win_condition()) {
 				std::cout << "You win\n";
+				
 				break;
 			}
 				
@@ -90,6 +91,6 @@ int main(int argc, char** argv) {
 	}
 
 	glfwTerminate();
-
+	system("pause");
 	return 0;
 }

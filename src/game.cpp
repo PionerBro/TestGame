@@ -24,6 +24,7 @@ void Game::init()
 	m_current_game_state = std::make_shared<Level>(ResourceManager::get_level("resources/level"));
 	set_window_size(m_window_size);
 }
+
 void Game::render()
 {
 	m_current_game_state->render();
