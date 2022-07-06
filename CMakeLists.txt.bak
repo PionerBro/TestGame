@@ -1,0 +1,72 @@
+cmake_minimum_required(VERSION 3.22)
+
+set(PROJECT_NAME TEST_OPENGL)
+
+project(${PROJECT_NAME})
+
+
+set(PUBLIC_HEADER
+	includes/gameobject.h
+	includes/staticobject.h
+	includes/point.h
+	includes/chip.h
+	includes/shaderprogram.h
+	includes/sprite.h
+	includes/vertexarray.h
+	includes/vertexbuffer.h
+	includes/indexbuffer.h
+	includes/resourcemanager.h
+	includes/level.h
+	includes/connection.h
+	includes/game.h
+	includes/gamestate.h
+	includes/inputcodes.h
+	includes/timer.h
+)
+
+set(PUBLIC_SOURCE 
+	src/main.cpp
+	src/gameobject.cpp
+	src/staticobject.cpp
+	src/point.cpp
+	src/chip.cpp
+	src/shaderprogram.cpp
+	src/sprite.cpp
+	src/vertexarray.cpp
+	src/vertexbuffer.cpp
+	src/indexbuffer.cpp
+	src/resourcemanager.cpp
+	src/level.cpp
+	src/connection.cpp
+	src/game.cpp
+	src/timer.cpp
+)
+	
+set(ALL_SOURCE_FILES
+	${PUBLIC_HEADER}
+	${PUBLIC_SOURCE}
+)
+	
+add_executable(${PROJECT_NAME} ${ALL_SOURCE_FILES})
+
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${ALL_SOURCE_FILES})
+
+
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
+
+target_include_directories(${PROJECT_NAME} PUBLIC includes)
+
+add_subdirectory(external/glfw)
+target_link_libraries(${PROJECT_NAME} glfw)
+
+add_subdirectory(external/glad)
+target_link_libraries(${PROJECT_NAME} glad)
+
+add_subdirectory(external/glm)
+target_link_libraries(${PROJECT_NAME} glm)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+					COMMAND ${CMAKE_COMMAND} -E copy_directory
+					${CMAKE_SOURCE_DIR}/resources $<TARGET_FILE_DIR:${PROJECT_NAME}>/resources)
